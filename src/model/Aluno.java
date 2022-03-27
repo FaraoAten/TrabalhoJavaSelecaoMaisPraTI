@@ -2,8 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
-public class Aluno extends Pessoa{
-    
+public class Aluno extends Pessoa {
+
     private double notaFinal;
 
     public Aluno() {
@@ -25,6 +25,6 @@ public class Aluno extends Pessoa{
 
     @Override
     public String toString() {
-        return "Aluno{" + "notaFinal=" + notaFinal + '}';
+        return "Nome: " + nome + ", Telefone: " + telefone + ", Data de nascimento: " + nascimento.format(format) + ", Nota final do curso: " + notaFinal + ", Data de cadastro: " + cadastro.format(format) + ", Última alteração cadastral feita em: " + ultimaAlteracao.format(format);
     }
 }

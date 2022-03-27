@@ -1,12 +1,14 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Pessoa {
-    
-    private String nome;
-    private long telefone;
-    private LocalDate nascimento, cadastro, ultimaAlteracao;
+
+    protected String nome;
+    protected long telefone;
+    protected LocalDate nascimento, cadastro, ultimaAlteracao;
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Pessoa() {
     }
@@ -57,6 +59,6 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" + "nome=" + nome + ", telefone=" + telefone + ", nascimento=" + nascimento + ", cadastro=" + cadastro + ", ultimaAlteracao=" + ultimaAlteracao + '}';
+        return "Nome: " + nome + ", Telefone: " + telefone + ", Data de nascimento: " + nascimento.format(format) + ", Data de cadastro: " + cadastro.format(format) + ", Última alteração cadastral feita em: " + ultimaAlteracao.format(format);
     }
 }

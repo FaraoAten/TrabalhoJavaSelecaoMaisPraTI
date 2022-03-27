@@ -21,7 +21,7 @@ public class Menu {
         while (continua) {
             System.out.println("Menu:");
             System.out.println("1- Cadastrar pessoa ou aluno;");
-            System.out.println("2- Listar cadastrados;");
+            System.out.println("2- Listar todos os cadastrados;");
             System.out.println("3- Atualizar dados de uma pessoa ou aluno;");
             System.out.println("4- Deletar uma pessoa ou aluno;");
             System.out.println("5- Sair.");
@@ -69,13 +69,22 @@ public class Menu {
                 System.out.println("Pessoa cadastrada com sucesso.\n");
             } else {
                 listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
-                System.out.println("Aluno cadastrado com sucesso.\n");
+                System.out.println("\nAluno cadastrado com sucesso.\n");
             }
         }
     }
 
     private void listarCadastrados() {
-        listaDeCadastrados.forEach(cadastrado -> System.out.println(cadastrado));
+        System.out.println("\nVocê selecionou listar todos os cadastrados.");
+        if (verificarIntencao()) {
+            System.out.println();
+            int i = 1;
+            for (Pessoa cadastrado : listaDeCadastrados) {
+                System.out.println("#" + i + "- " + cadastrado);
+                i++;
+            }
+        }
+        System.out.println();
     }
 
     private void atualizarPessoaOuAluno() {
