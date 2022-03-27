@@ -1,11 +1,16 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
     Scanner entrada = new Scanner(System.in);
     private boolean continua = true;
+    private List<Pessoa> listaDeCadastrados = new ArrayList();
 
     public static void chamarMenu() {
         Menu menu = new Menu();
@@ -14,22 +19,25 @@ public class Menu {
 
     private void mostrarMenu() {
         while (continua) {
-            System.out.println("Menu:\n");
+            System.out.println("Menu:");
             System.out.println("1- Cadastrar pessoa ou aluno;");
             System.out.println("2- Listar cadastrados;");
             System.out.println("3- Atualizar dados de uma pessoa ou aluno;");
             System.out.println("4- Deletar uma pessoa ou aluno;");
             System.out.println("5- Sair.");
 
-            switch (entrada.next()) {
+            switch (entrada.nextLine()) {
                 case "1":
                     cadastrarPessoaOuAluno();
                     break;
                 case "2":
+                    listarCadastrados();
                     break;
                 case "3":
+                    atualizarPessoaOuAluno();
                     break;
                 case "4":
+                    deletarPessoaOuAluno();
                     break;
                 case "5":
                     continua = false;
@@ -42,14 +50,32 @@ public class Menu {
     }
 
     private void cadastrarPessoaOuAluno() {
-        System.out.println("Você selecionou cadastrar pessoa ou aluno.");
-        if(verificarIntencao()){
-            
-        }        
+        System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
+        if (verificarIntencao()) {
+            System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
+            String nome = entrada.nextLine();
+
+            System.out.println("\nDigite o número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
+            long telefone = Long.parseLong(entrada.nextLine());
+
+            System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
+            String nascimento = entrada.nextLine();
+
+            System.out.println("\nCaso queira cadastrar um aluno, digite a nota final do curso:\n(Para cadastrar uma pessoa basta clicar a tecla 'Enter' deixando esse campo em branco)");
+            String notaFinal = entrada.nextLine();
+
+            if (notaFinal.isBlank()) {
+                listaDeCadastrados.add(new Pessoa(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+                System.out.println("Pessoa cadastrada com sucesso.\n");
+            } else {
+                listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
+                System.out.println("Aluno cadastrado com sucesso.\n");
+            }
+        }
     }
 
     private void listarCadastrados() {
-
+        listaDeCadastrados.forEach(cadastrado -> System.out.println(cadastrado));
     }
 
     private void atualizarPessoaOuAluno() {
@@ -59,17 +85,18 @@ public class Menu {
     private void deletarPessoaOuAluno() {
 
     }
-    
-    private boolean verificarIntencao(){
+
+    private boolean verificarIntencao() {
         while (true) {
             System.out.println("Deseja proseguir com essa ação?\n1- Sim 2- Não:");
-            switch (entrada.next()) {
+            switch (entrada.nextLine()) {
                 case "1":
                     return true;
                 case "2":
+                    System.out.println();
                     return false;
                 default:
-                    System.out.println("Opção inválida. Por favor selecione uma opção existente.\n");
+                    System.out.println("\nOpção inválida. Por favor selecione uma opção existente.\n");
                     break;
             }
         }

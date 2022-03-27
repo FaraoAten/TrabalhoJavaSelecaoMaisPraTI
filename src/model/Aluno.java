@@ -4,22 +4,22 @@ import java.time.LocalDate;
 
 public class Aluno extends Pessoa{
     
-    private int notaFinal;
+    private double notaFinal;
 
     public Aluno() {
         super();
     }
 
-    public Aluno(String nome, long telefone, LocalDate nascimento, int notaFinal) {
+    public Aluno(String nome, long telefone, LocalDate nascimento, double notaFinal) {
         super(nome, telefone, nascimento);
         this.notaFinal = notaFinal;
     }
 
-    public int getNotaFinal() {
+    public double getNotaFinal() {
         return notaFinal;
     }
 
-    public void setNotaFinal(int notaFinal) {
+    public void setNotaFinal(double notaFinal) {
         this.notaFinal = notaFinal;
     }
 
