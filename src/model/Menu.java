@@ -79,9 +79,14 @@ public class Menu {
     private void cadastrarPessoaOuAluno() {
         System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
         String nome = entrada.nextLine();
+        while(nome.length()<3){
+            System.out.println("\nPor favor digite um nome:");
+            nome = entrada.nextLine();
+        }
 
         System.out.println("\nDigite o DDD+número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
         String telefone = entrada.nextLine();
+        
 
         System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
         String nascimento = entrada.nextLine();

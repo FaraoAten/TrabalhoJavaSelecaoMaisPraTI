@@ -13,7 +13,7 @@ public class Pessoa {
     }
 
     public Pessoa(String nome, String telefone, LocalDate nascimento) {
-        this.nome = nome;
+        this.nome = Pessoa.formatarNome(nome);
         this.telefone = Pessoa.formatarTelefone(telefone);
         this.nascimento = nascimento;
         this.cadastro = LocalDate.now();
@@ -23,9 +23,21 @@ public class Pessoa {
     private static String formatarTelefone(String telefone) {
         if (telefone.length() > 11) {
             return "(" + telefone.substring(0, 3) + ")" + telefone.substring(3, 8) + "-" + telefone.substring(8, 12);
-        } else {
+        } else if (telefone.length() == 11 && !telefone.substring(0, 1).equals("0")) {
             return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7, 11);
+        } else if (telefone.length() == 11) {
+            return "(" + telefone.substring(0, 3) + ")" + telefone.substring(3, 7) + "-" + telefone.substring(7, 11);
+        } else {
+            return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 6) + "-" + telefone.substring(6, 10);
         }
+    }
+
+    private static String formatarNome(String nome) {
+        String nomeFormatado = "";
+        for (String parte : nome.split(" ")) {
+            nomeFormatado += parte.substring(0, 1).toUpperCase() + parte.substring(1) + " ";
+        }
+        return nomeFormatado.substring(0, nomeFormatado.length() - 1);
     }
 
     public String getNome() {
@@ -33,7 +45,7 @@ public class Pessoa {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = Pessoa.formatarNome(nome);
     }
 
     public String getTelefone() {
