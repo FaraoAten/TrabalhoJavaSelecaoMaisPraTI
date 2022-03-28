@@ -59,6 +59,6 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome: " + nome + ", Telefone: " + telefone + ", Data de nascimento: " + nascimento.format(format) + ", Data de cadastro: " + cadastro.format(format) + ", Última alteração cadastral feita em: " + ultimaAlteracao.format(format);
+        return "Nome: " + getNome() + ", Telefone: " + getTelefone() + ", Data de nascimento: " + getNascimento().format(format) + ", Data de cadastro: " + getCadastro().format(format) + ", Última alteração cadastral feita em: " + getUltimaAlteracao().format(format);
     }
 }

@@ -28,16 +28,28 @@ public class Menu {
 
             switch (entrada.nextLine()) {
                 case "1":
-                    cadastrarPessoaOuAluno();
+                    System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
+                    if (verificarIntencao()) {
+                        cadastrarPessoaOuAluno();
+                    }
                     break;
                 case "2":
-                    listarCadastrados();
+                    System.out.println("\nVocê selecionou listar todos os cadastrados.");
+                    if (verificarIntencao()) {
+                        listarCadastrados();
+                    }
                     break;
                 case "3":
-                    atualizarPessoaOuAluno();
+                    System.out.println("\nVocê selecionou atualizar dados de uma pessoa ou aluno.");
+                    if (verificarIntencao()) {
+                        atualizarPessoaOuAluno();
+                    }
                     break;
                 case "4":
-                    deletarPessoaOuAluno();
+                    System.out.println("\nVocê selecionou deletar uma pessoa ou aluno.");
+                    if (verificarIntencao()) {
+                        deletarPessoaOuAluno();
+                    }
                     break;
                 case "5":
                     continua = false;
@@ -50,34 +62,32 @@ public class Menu {
     }
 
     private void cadastrarPessoaOuAluno() {
-        System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
-        if (verificarIntencao()) {
-            System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
-            String nome = entrada.nextLine();
+        System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
+        String nome = entrada.nextLine();
 
-            System.out.println("\nDigite o número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
-            long telefone = Long.parseLong(entrada.nextLine());
+        System.out.println("\nDigite o número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
+        long telefone = Long.parseLong(entrada.nextLine());
 
-            System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
-            String nascimento = entrada.nextLine();
+        System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
+        String nascimento = entrada.nextLine();
 
-            System.out.println("\nCaso queira cadastrar um aluno, digite a nota final do curso:\n(Para cadastrar uma pessoa basta clicar a tecla 'Enter' deixando esse campo em branco)");
-            String notaFinal = entrada.nextLine();
+        System.out.println("\nCaso queira cadastrar um aluno, digite a nota final do curso:\n(Para cadastrar uma pessoa basta clicar a tecla 'Enter' deixando esse campo em branco)");
+        String notaFinal = entrada.nextLine();
 
-            if (notaFinal.isBlank()) {
-                listaDeCadastrados.add(new Pessoa(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
-                System.out.println("Pessoa cadastrada com sucesso.\n");
-            } else {
-                listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
-                System.out.println("\nAluno cadastrado com sucesso.\n");
-            }
+        if (notaFinal.isBlank()) {
+            listaDeCadastrados.add(new Pessoa(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+            System.out.println("Pessoa cadastrada com sucesso.\n");
+        } else {
+            listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
+            System.out.println("\nAluno cadastrado com sucesso.\n");
         }
     }
 
     private void listarCadastrados() {
-        System.out.println("\nVocê selecionou listar todos os cadastrados.");
-        if (verificarIntencao()) {
-            System.out.println();
+        System.out.println();
+        if (listaDeCadastrados.size() <= 0) {
+            System.out.println("No momento não há niguém cadastrado.");
+        } else {
             int i = 1;
             for (Pessoa cadastrado : listaDeCadastrados) {
                 System.out.println("#" + i + "- " + cadastrado);
@@ -88,11 +98,18 @@ public class Menu {
     }
 
     private void atualizarPessoaOuAluno() {
-
+        listarCadastrados();
+        System.out.println("Digite o número da posição de quem você quer editar os dados:");
+        int i = Integer.parseInt(entrada.nextLine());
+        listaDeCadastrados.get(i - 1);
     }
 
     private void deletarPessoaOuAluno() {
-
+        listarCadastrados();
+        System.out.println("Digite o número da posição de quem você quer deletar os dados:");
+        int i = Integer.parseInt(entrada.nextLine());
+        listaDeCadastrados.remove(i - 1);
+        System.out.println("Remoção efetuada com sucesso.\n");
     }
 
     private boolean verificarIntencao() {
