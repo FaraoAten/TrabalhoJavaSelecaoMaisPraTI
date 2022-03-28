@@ -14,6 +14,10 @@ public class Aluno extends Pessoa {
         super(nome, telefone, nascimento);
         this.notaFinal = notaFinal;
     }
+    
+    public static Aluno parseAluno(Pessoa pessoa){
+        return (Aluno) pessoa;
+    }
 
     public double getNotaFinal() {
         return notaFinal;
