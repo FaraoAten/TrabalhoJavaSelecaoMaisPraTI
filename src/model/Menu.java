@@ -117,11 +117,13 @@ public class Menu {
     private void listarPessoasCadastradas() {
         System.out.println();
 
-        if (listaDeCadastrados.size() <= 0) {
-            System.out.println("No momento não há niguém cadastrado.");
+        List<Pessoa> listaDePessoas = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Pessoa")).collect(Collectors.toList());
+
+        if (listaDePessoas.size() <= 0) {
+            System.out.println("No momento não há nenhuma pessoa cadastrada.");
         } else {
             int i = 1;
-            for (Pessoa cadastrado : listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Pessoa")).collect(Collectors.toList())) {
+            for (Pessoa cadastrado : listaDePessoas) {
                 System.out.println("#" + i + "- " + cadastrado);
                 i++;
             }
@@ -133,11 +135,13 @@ public class Menu {
     private void listarAlunosCadastrados() {
         System.out.println();
 
-        if (listaDeCadastrados.size() <= 0) {
-            System.out.println("No momento não há niguém cadastrado.");
+        List<Pessoa> listaDeAlunos = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Aluno")).collect(Collectors.toList());
+
+        if (listaDeAlunos.size() <= 0) {
+            System.out.println("No momento não há nenhum aluno cadastrado.");
         } else {
             int i = 1;
-            for (Pessoa cadastrado : listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Aluno")).collect(Collectors.toList())) {
+            for (Pessoa cadastrado : listaDeAlunos) {
                 System.out.println("#" + i + "- " + cadastrado);
                 i++;
             }
