@@ -10,7 +10,7 @@ public class Aluno extends Pessoa {
         super();
     }
 
-    public Aluno(String nome, long telefone, LocalDate nascimento, double notaFinal) {
+    public Aluno(String nome, String telefone, LocalDate nascimento, double notaFinal) {
         super(nome, telefone, nascimento);
         this.notaFinal = notaFinal;
     }

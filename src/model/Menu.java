@@ -80,8 +80,8 @@ public class Menu {
         System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
         String nome = entrada.nextLine();
 
-        System.out.println("\nDigite o número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
-        long telefone = Long.parseLong(entrada.nextLine());
+        System.out.println("\nDigite o DDD+número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
+        String telefone = entrada.nextLine();
 
         System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
         String nascimento = entrada.nextLine();
@@ -163,7 +163,7 @@ public class Menu {
         System.out.println("\nDigite o número número telefonico (apenas os números):");
         String telefone = entrada.nextLine();
         if (!telefone.isBlank()) {
-            listaDeCadastrados.get(i - 1).setTelefone(Long.parseLong(telefone));
+            listaDeCadastrados.get(i - 1).setTelefone(telefone);
         }
 
         System.out.println("\nDigite a nova data de nascimento (no padrão dd/mm/aaaa):");

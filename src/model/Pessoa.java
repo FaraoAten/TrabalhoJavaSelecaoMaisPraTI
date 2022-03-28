@@ -5,20 +5,27 @@ import java.time.format.DateTimeFormatter;
 
 public class Pessoa {
 
-    protected String nome;
-    protected long telefone;
+    protected String nome, telefone;
     protected LocalDate nascimento, cadastro, ultimaAlteracao;
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Pessoa() {
     }
 
-    public Pessoa(String nome, long telefone, LocalDate nascimento) {
+    public Pessoa(String nome, String telefone, LocalDate nascimento) {
         this.nome = nome;
-        this.telefone = telefone;
+        this.telefone = Pessoa.formatarTelefone(telefone);
         this.nascimento = nascimento;
         this.cadastro = LocalDate.now();
         this.ultimaAlteracao = LocalDate.now();
+    }
+
+    private static String formatarTelefone(String telefone) {
+        if (telefone.length() > 11) {
+            return "(" + telefone.substring(0, 3) + ")" + telefone.substring(3, 8) + "-" + telefone.substring(8, 12);
+        } else {
+            return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7, 11);
+        }
     }
 
     public String getNome() {
@@ -29,12 +36,12 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public long getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(long telefone) {
-        this.telefone = telefone;
+    public void setTelefone(String telefone) {
+        this.telefone = Pessoa.formatarTelefone(telefone);
     }
 
     public LocalDate getNascimento() {
