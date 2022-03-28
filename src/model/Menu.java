@@ -2,22 +2,23 @@ package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Menu {
-
+    
     Scanner entrada = new Scanner(System.in);
-    private boolean continua = true;
+    private boolean repete = true, continua = true;
     private List<Pessoa> listaDeCadastrados = new ArrayList();
-
+    
     public static void chamarMenu() {
         Menu menu = new Menu();
         menu.mostrarMenu();
     }
-
+    
     private void mostrarMenu() {
         while (continua) {
             System.out.println("Menu:");
@@ -28,7 +29,7 @@ public class Menu {
             System.out.println("5- Atualizar dados de uma pessoa ou aluno;");
             System.out.println("6- Deletar uma pessoa ou aluno;");
             System.out.println("7- Sair.");
-
+            
             switch (entrada.nextLine()) {
                 case "1":
                     System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
@@ -75,37 +76,73 @@ public class Menu {
             }
         }
     }
-
+    
     private void cadastrarPessoaOuAluno() {
         System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
         String nome = entrada.nextLine();
-        while(nome.length()<3){
+        while (nome.length() < 3) {
             System.out.println("\nPor favor digite um nome:");
             nome = entrada.nextLine();
         }
-
+        
         System.out.println("\nDigite o DDD+número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
         String telefone = entrada.nextLine();
+        while (repete) {
+            try {
+                while (telefone.length() < 10 || telefone.length() > 12) {
+                    System.out.println("\nPor favor digite um número telefonico válido:\n(No formato DDD+número e colocando apenas os números)");
+                    telefone = entrada.nextLine();
+                }
+                Long verificaNumero = Long.parseLong(telefone);
+                repete = false;
+            } catch (NumberFormatException e) {
+                System.out.println("\nPor favor digite um número telefonico válido:\n(No formato DDD+número e colocando apenas os números)");
+                telefone = entrada.nextLine();
+            }
+        }
+        repete = true;
         
-
         System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
-        String nascimento = entrada.nextLine();
-
+        LocalDate nascimento = LocalDate.now();
+        while (repete) {
+            try {
+                nascimento = LocalDate.parse(entrada.nextLine(), DateTimeFormatter.ofPattern("dd/MM/uuuu"));
+                repete = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("\nPor favor digite uma data válida:\n(No formato dd/mm/aaaa)");
+            }
+        }
+        repete = true;
+        
         System.out.println("\nCaso queira cadastrar um aluno, digite a nota final do curso:\n(Para cadastrar uma pessoa clique na tecla 'Enter' deixando esse campo em branco)");
         String notaFinal = entrada.nextLine();
-
+        
         if (notaFinal.isBlank()) {
-            listaDeCadastrados.add(new Pessoa(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu"))));
+            listaDeCadastrados.add(new Pessoa(nome, telefone, nascimento));
             System.out.println("Pessoa cadastrada com sucesso.\n");
         } else {
-            listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
+            while (repete) {
+                try {
+                    while (notaFinal.contains("-")) {
+                        System.out.println("\nPor favor digite uma nota válida:");
+                        notaFinal = entrada.nextLine();
+                    }
+                    Double verificaNotaFinal = Double.parseDouble(notaFinal);
+                    repete = false;
+                } catch (NumberFormatException e) {
+                    System.out.println("\nPor favor digite uma nota válida:");
+                    notaFinal = entrada.nextLine();
+                }
+            }
+            repete = true;
+            listaDeCadastrados.add(new Aluno(nome, telefone, nascimento, Double.parseDouble(notaFinal)));
             System.out.println("\nAluno cadastrado com sucesso.\n");
         }
     }
-
+    
     private void listarTodosCadastrados() {
         System.out.println();
-
+        
         if (listaDeCadastrados.size() <= 0) {
             System.out.println("No momento não há niguém cadastrado.");
         } else {
@@ -115,15 +152,15 @@ public class Menu {
                 i++;
             }
         }
-
+        
         System.out.println();
     }
-
+    
     private void listarPessoasCadastradas() {
         System.out.println();
-
+        
         List<Pessoa> listaDePessoas = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Pessoa")).collect(Collectors.toList());
-
+        
         if (listaDePessoas.size() <= 0) {
             System.out.println("No momento não há nenhuma pessoa cadastrada.");
         } else {
@@ -133,15 +170,15 @@ public class Menu {
                 i++;
             }
         }
-
+        
         System.out.println();
     }
-
+    
     private void listarAlunosCadastrados() {
         System.out.println();
-
+        
         List<Pessoa> listaDeAlunos = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Aluno")).collect(Collectors.toList());
-
+        
         if (listaDeAlunos.size() <= 0) {
             System.out.println("No momento não há nenhum aluno cadastrado.");
         } else {
@@ -151,36 +188,36 @@ public class Menu {
                 i++;
             }
         }
-
+        
         System.out.println();
     }
-
+    
     private void atualizarPessoaOuAluno() {
         listarTodosCadastrados();
-
+        
         System.out.println("Digite o número da posição de quem você quer editar os dados:");
         int i = Integer.parseInt(entrada.nextLine());
-
+        
         System.out.println("\nCaso não queira atualizar algum dado clique na tecla 'Enter' deixando o campo em branco.");
-
+        
         System.out.println("\nDigite o novo nome:");
         String nome = entrada.nextLine();
         if (!nome.isBlank()) {
             listaDeCadastrados.get(i - 1).setNome(nome);
         }
-
+        
         System.out.println("\nDigite o número número telefonico (apenas os números):");
         String telefone = entrada.nextLine();
         if (!telefone.isBlank()) {
             listaDeCadastrados.get(i - 1).setTelefone(telefone);
         }
-
+        
         System.out.println("\nDigite a nova data de nascimento (no padrão dd/mm/aaaa):");
         String nascimento = entrada.nextLine();
         if (!nascimento.isBlank()) {
             listaDeCadastrados.get(i - 1).setNascimento(LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")));
         }
-
+        
         if (listaDeCadastrados.get(i - 1).getClass().toString().equals("class model.Aluno")) {
             System.out.println("\nDigite a nova nota final do curso:");
             String notaFinal = entrada.nextLine();
@@ -188,27 +225,27 @@ public class Menu {
                 Aluno.parseAluno(listaDeCadastrados.get(i - 1)).setNotaFinal(Double.parseDouble(notaFinal));
             }
         }
-
+        
         listaDeCadastrados.get(i - 1).setUltimaAlteracao(LocalDate.now());
-
+        
         System.out.println("\nAtualização realizada com sucesso.\n");
     }
-
+    
     private void deletarPessoaOuAluno() {
         listarTodosCadastrados();
-
+        
         System.out.println("Digite o número da posição de quem você quer deletar os dados:");
         int i = Integer.parseInt(entrada.nextLine());
-
+        
         listaDeCadastrados.remove(i - 1);
-
+        
         System.out.println("Remoção efetuada com sucesso.\n");
     }
-
+    
     private boolean verificarIntencao() {
         while (true) {
             System.out.println("Deseja proseguir com essa ação?\n1- Sim 2- Não:");
-
+            
             switch (entrada.nextLine()) {
                 case "1":
                     return true;

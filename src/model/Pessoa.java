@@ -21,7 +21,7 @@ public class Pessoa {
     }
 
     private static String formatarTelefone(String telefone) {
-        if (telefone.length() > 11) {
+        if (telefone.length() == 12) {
             return "(" + telefone.substring(0, 3) + ")" + telefone.substring(3, 8) + "-" + telefone.substring(8, 12);
         } else if (telefone.length() == 11 && !telefone.substring(0, 1).equals("0")) {
             return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7, 11);
