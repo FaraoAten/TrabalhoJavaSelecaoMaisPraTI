@@ -20,6 +20,14 @@ public class Pessoa {
         this.ultimaAlteracao = LocalDate.now();
     }
 
+    private static String formatarNome(String nome) {
+        String nomeFormatado = "";
+        for (String parte : nome.split(" ")) {
+            nomeFormatado += parte.substring(0, 1).toUpperCase() + parte.substring(1) + " ";
+        }
+        return nomeFormatado.substring(0, nomeFormatado.length() - 1);
+    }
+
     private static String formatarTelefone(String telefone) {
         if (telefone.length() == 12) {
             return "(" + telefone.substring(0, 3) + ")" + telefone.substring(3, 8) + "-" + telefone.substring(8, 12);
@@ -30,14 +38,6 @@ public class Pessoa {
         } else {
             return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 6) + "-" + telefone.substring(6, 10);
         }
-    }
-
-    private static String formatarNome(String nome) {
-        String nomeFormatado = "";
-        for (String parte : nome.split(" ")) {
-            nomeFormatado += parte.substring(0, 1).toUpperCase() + parte.substring(1) + " ";
-        }
-        return nomeFormatado.substring(0, nomeFormatado.length() - 1);
     }
 
     public String getNome() {

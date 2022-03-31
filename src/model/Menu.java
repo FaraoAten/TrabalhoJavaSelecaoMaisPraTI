@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class Menu {
 
-    Scanner entrada = new Scanner(System.in);
+    Scanner entrada = new Scanner(System.in,"ISO-8859-1");
     private boolean continua = true;
     private List<Pessoa> listaDeCadastrados = new ArrayList();
-    private String regexNome = "[^0-9!@#$%¨&*()_+-={}?:/;><\\,\\.`´^~\\[\\]]{3,}";
+    private String regexNome = "[a-zA-Zà-üÀ-Ü' ]{3,}";
     private String regexTelefone = "[0-9]{10,12}";
     private String regexNotaFinal = "[0-9]{1,}[\\.][0-9]{1,}|[0-9]{1,}";
 
