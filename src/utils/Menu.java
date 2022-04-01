@@ -1,4 +1,4 @@
-package model;
+package utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import model.Aluno;
+import model.Pessoa;
 
 public class Menu {
 
@@ -27,11 +29,9 @@ public class Menu {
             System.out.println("Menu:");
             System.out.println("1- Cadastrar pessoa ou aluno;");
             System.out.println("2- Listar todos os cadastrados;");
-            System.out.println("3- Listar apenas as pessoas cadastradas;");
-            System.out.println("4- Listar apenas os alunos cadastrados;");
-            System.out.println("5- Atualizar dados de uma pessoa ou aluno;");
-            System.out.println("6- Deletar uma pessoa ou aluno;");
-            System.out.println("7- Sair.");
+            System.out.println("3- Atualizar dados de uma pessoa ou aluno;");
+            System.out.println("4- Deletar uma pessoa ou aluno;");
+            System.out.println("5- Sair.");
 
             switch (entrada.nextLine()) {
                 case "1":
@@ -47,30 +47,18 @@ public class Menu {
                     }
                     break;
                 case "3":
-                    System.out.println("\nVocê selecionou listar apenas as pessoas csadastradas.");
-                    if (verificarIntencao()) {
-                        listarPessoasCadastradas();
-                    }
-                    break;
-                case "4":
-                    System.out.println("\nVocê selecionou listar apenas os alunos cadastrados.");
-                    if (verificarIntencao()) {
-                        listarAlunosCadastrados();
-                    }
-                    break;
-                case "5":
                     System.out.println("\nVocê selecionou atualizar dados de uma pessoa ou aluno.");
                     if (verificarIntencao()) {
                         atualizarPessoaOuAluno();
                     }
                     break;
-                case "6":
+                case "4":
                     System.out.println("\nVocê selecionou deletar uma pessoa ou aluno.");
                     if (verificarIntencao()) {
                         deletarPessoaOuAluno();
                     }
                     break;
-                case "7":
+                case "5":
                     continua = false;
                     break;
                 default:
@@ -131,42 +119,6 @@ public class Menu {
         } else {
             int i = 1;
             for (Pessoa cadastrado : listaDeCadastrados) {
-                System.out.println("#" + i + "- " + cadastrado);
-                i++;
-            }
-        }
-
-        System.out.println();
-    }
-
-    private void listarPessoasCadastradas() {
-        System.out.println();
-
-        List<Pessoa> listaDePessoas = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Pessoa")).collect(Collectors.toList());
-
-        if (listaDePessoas.size() <= 0) {
-            System.out.println("No momento não há nenhuma pessoa cadastrada.");
-        } else {
-            int i = 1;
-            for (Pessoa cadastrado : listaDePessoas) {
-                System.out.println("#" + i + "- " + cadastrado);
-                i++;
-            }
-        }
-
-        System.out.println();
-    }
-
-    private void listarAlunosCadastrados() {
-        System.out.println();
-
-        List<Pessoa> listaDeAlunos = listaDeCadastrados.stream().filter(cadastrada -> cadastrada.getClass().toString().equals("class model.Aluno")).collect(Collectors.toList());
-
-        if (listaDeAlunos.size() <= 0) {
-            System.out.println("No momento não há nenhum aluno cadastrado.");
-        } else {
-            int i = 1;
-            for (Pessoa cadastrado : listaDeAlunos) {
                 System.out.println("#" + i + "- " + cadastrado);
                 i++;
             }
