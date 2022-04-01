@@ -1,4 +1,4 @@
-package utils;
+package controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,69 +6,18 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import model.Aluno;
 import model.Pessoa;
 
 public class Menu {
 
     Scanner entrada = new Scanner(System.in,"ISO-8859-1");
-    private boolean continua = true;
     private List<Pessoa> listaDeCadastrados = new ArrayList();
     private String regexNome = "[a-zA-Zà-üÀ-Ü' ]{3,}";
     private String regexTelefone = "[0-9]{10,12}";
     private String regexNotaFinal = "[0-9]{1,}[\\.][0-9]{1,}|[0-9]{1,}";
 
-    public static void chamarMenu() {
-        Menu menu = new Menu();
-        menu.mostrarMenu();
-    }
-
-    private void mostrarMenu() {
-        while (continua) {
-            System.out.println("Menu:");
-            System.out.println("1- Cadastrar pessoa ou aluno;");
-            System.out.println("2- Listar todos os cadastrados;");
-            System.out.println("3- Atualizar dados de uma pessoa ou aluno;");
-            System.out.println("4- Deletar uma pessoa ou aluno;");
-            System.out.println("5- Sair.");
-
-            switch (entrada.nextLine()) {
-                case "1":
-                    System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
-                    if (verificarIntencao()) {
-                        cadastrarPessoaOuAluno();
-                    }
-                    break;
-                case "2":
-                    System.out.println("\nVocê selecionou listar todos os cadastrados.");
-                    if (verificarIntencao()) {
-                        listarTodosCadastrados();
-                    }
-                    break;
-                case "3":
-                    System.out.println("\nVocê selecionou atualizar dados de uma pessoa ou aluno.");
-                    if (verificarIntencao()) {
-                        atualizarPessoaOuAluno();
-                    }
-                    break;
-                case "4":
-                    System.out.println("\nVocê selecionou deletar uma pessoa ou aluno.");
-                    if (verificarIntencao()) {
-                        deletarPessoaOuAluno();
-                    }
-                    break;
-                case "5":
-                    continua = false;
-                    break;
-                default:
-                    System.out.println("Opção inválida. Por favor selecione uma função existente.\n");
-                    break;
-            }
-        }
-    }
-
-    private void cadastrarPessoaOuAluno() {
+    public void cadastrarPessoaOuAluno() {
         System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
         String nome = entrada.nextLine();
         while (!nome.matches(regexNome)) {
@@ -111,7 +60,7 @@ public class Menu {
         }
     }
 
-    private void listarTodosCadastrados() {
+    public void listarTodosCadastrados() {
         System.out.println();
 
         if (listaDeCadastrados.size() <= 0) {
@@ -127,7 +76,7 @@ public class Menu {
         System.out.println();
     }
 
-    private void atualizarPessoaOuAluno() {
+    public void atualizarPessoaOuAluno() {
         listarTodosCadastrados();
         if (listaDeCadastrados.size() > 0) {
             System.out.println("Digite o número da posição de quem você quer editar os dados:");
@@ -199,7 +148,7 @@ public class Menu {
         }
     }
 
-    private void deletarPessoaOuAluno() {
+    public void deletarPessoaOuAluno() {
         listarTodosCadastrados();
         if (listaDeCadastrados.size() > 0) {
             System.out.println("Digite o número da posição de quem você quer deletar os dados:");
@@ -222,7 +171,7 @@ public class Menu {
         }
     }
 
-    private boolean verificarIntencao() {
+    public boolean verificarIntencao() {
         while (true) {
             System.out.println("Deseja proseguir com essa ação?\n1- Sim 2- Não:");
 
