@@ -1,4 +1,3 @@
-//to git https://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D@github.com/FaraoAten/TrabalhoJavaSelecaoMaisPraTI.git
 package view;
 
 import controller.Menu;
@@ -18,7 +17,7 @@ public class Main {
             System.out.println("4- Deletar uma pessoa ou aluno;");
             System.out.println("5- Sair.");
             String opcao = entrada.nextLine();
-            
+
             if (opcao.equals("5")) {
                 break;
             } else {
@@ -37,13 +36,13 @@ public class Main {
                         break;
                     case "3":
                         System.out.println("\nVocê selecionou atualizar dados de uma pessoa ou aluno.");
-                        if (menu.verificarIntencao()) {
+                        if (menu.verificarIntencao() && menu.listarTodosCadastrados()) {
                             menu.atualizarPessoaOuAluno();
                         }
                         break;
                     case "4":
                         System.out.println("\nVocê selecionou deletar uma pessoa ou aluno.");
-                        if (menu.verificarIntencao()) {
+                        if (menu.verificarIntencao() && menu.listarTodosCadastrados()) {
                             menu.deletarPessoaOuAluno();
                         }
                         break;
