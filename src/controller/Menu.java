@@ -59,9 +59,11 @@ public class Menu {
     public void atualizarPessoaOuAluno() {
         System.out.println("Digite o número da posição de quem você quer editar os dados:");
         int i = validarPosicao(entrada.nextLine());
-
-        System.out.println("\nCaso não queira atualizar algum dado clique na tecla 'Enter' deixando o campo em branco.");
-        System.out.println("\nDigite o novo nome:");
+        
+        System.out.println("\n==========================================================================================");
+        System.out.println("Caso não queira atualizar algum dado clique na tecla 'Enter' deixando o campo em branco.");
+        System.out.println("==========================================================================================\n");
+        System.out.println("Digite o novo nome:");
         String nome = entrada.nextLine();
         if (!nome.isBlank()) {
             nome = validarNome(nome);
@@ -171,10 +173,10 @@ public class Menu {
                 listaDeCadastrados.get(i - 1);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Valor inválido\n\nPor favor digite o número de uma posição:");
+                System.out.println("Valor inválido\nPor favor digite o número de uma posição:");
                 posicao = entrada.nextLine();
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Posição inexistente\n\nPor favor digite uma posição válida:");
+                System.out.println("Posição inexistente\nPor favor digite uma posição válida:");
                 posicao = entrada.nextLine();
             }
         }
