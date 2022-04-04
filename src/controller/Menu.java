@@ -11,18 +11,17 @@ import model.Pessoa;
 
 public class Menu {
 
-    Scanner entrada = new Scanner(System.in, "ISO-8859-1");
     private List<Pessoa> listaDeCadastrados = new ArrayList();
 
-    public void cadastrarPessoaOuAluno() {
+    public void cadastrarPessoaOuAluno(Scanner entrada) {
         System.out.println("\nDigite o nome da pessoa ou aluno a ser cadastrado:");
-        String nome = validarNome(entrada.nextLine());
+        String nome = validarNome(entrada, entrada.nextLine());
 
         System.out.println("\nDigite o DDD+número telefonico da pessoa ou aluno a ser cadastrado (apenas os números):");
-        String telefone = validarTelefone(entrada.nextLine());
+        String telefone = validarTelefone(entrada, entrada.nextLine());
 
         System.out.println("\nDigite a data de nascimento da pessoa ou aluno a ser cadastrado (no padrão dd/mm/aaaa):");
-        String nascimento = validarNascimento(entrada.nextLine());
+        String nascimento = validarNascimento(entrada, entrada.nextLine());
 
         System.out.println("\nCaso queira cadastrar um aluno, digite a nota final do curso:\n(Para cadastrar uma pessoa clique na tecla 'Enter' deixando esse campo em branco)");
         String notaFinal = entrada.nextLine();
@@ -32,7 +31,7 @@ public class Menu {
             System.out.println("Pessoa cadastrada com sucesso.");
             System.out.println("====================================\n");
         } else {
-            notaFinal = validarNotaFinal(notaFinal);
+            notaFinal = validarNotaFinal(entrada, notaFinal);
             listaDeCadastrados.add(new Aluno(nome, telefone, LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")), Double.parseDouble(notaFinal)));
             System.out.println("\n====================================");
             System.out.println("Aluno cadastrado com sucesso.");
@@ -56,31 +55,31 @@ public class Menu {
         }
     }
 
-    public void atualizarPessoaOuAluno() {
+    public void atualizarPessoaOuAluno(Scanner entrada) {
         System.out.println("Digite o número da posição de quem você quer editar os dados:");
-        int i = validarPosicao(entrada.nextLine());
-        
+        int i = validarPosicao(entrada, entrada.nextLine());
+
         System.out.println("\n==========================================================================================");
         System.out.println("Caso não queira atualizar algum dado clique na tecla 'Enter' deixando o campo em branco.");
         System.out.println("==========================================================================================\n");
         System.out.println("Digite o novo nome:");
         String nome = entrada.nextLine();
         if (!nome.isBlank()) {
-            nome = validarNome(nome);
+            nome = validarNome(entrada, nome);
             listaDeCadastrados.get(i - 1).setNome(nome);
         }
 
         System.out.println("\nDigite o número número telefonico (apenas os números):");
         String telefone = entrada.nextLine();
         if (!telefone.isBlank()) {
-            telefone = validarTelefone(telefone);
+            telefone = validarTelefone(entrada, telefone);
             listaDeCadastrados.get(i - 1).setTelefone(telefone);
         }
 
         System.out.println("\nDigite a nova data de nascimento (no padrão dd/mm/aaaa):");
         String nascimento = entrada.nextLine();
         if (!nascimento.isBlank()) {
-            nascimento = validarNascimento(nascimento);
+            nascimento = validarNascimento(entrada, nascimento);
             listaDeCadastrados.get(i - 1).setNascimento(LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu")));
         }
 
@@ -88,7 +87,7 @@ public class Menu {
             System.out.println("\nDigite a nova nota final do curso:");
             String notaFinal = entrada.nextLine();
             if (!notaFinal.isBlank()) {
-                notaFinal = validarNotaFinal(notaFinal);
+                notaFinal = validarNotaFinal(entrada, notaFinal);
                 Aluno.parseAluno(listaDeCadastrados.get(i - 1)).setNotaFinal(Double.parseDouble(notaFinal));
             }
         }
@@ -99,9 +98,9 @@ public class Menu {
         System.out.println("====================================\n");
     }
 
-    public void deletarPessoaOuAluno() {
+    public void deletarPessoaOuAluno(Scanner entrada) {
         System.out.println("Digite o número da posição de quem você quer deletar os dados:");
-        int i = validarPosicao(entrada.nextLine());
+        int i = validarPosicao(entrada, entrada.nextLine());
         listaDeCadastrados.remove(i - 1);
         System.out.println("\n====================================");
         System.out.println("Remoção efetuada com sucesso.");
@@ -109,7 +108,7 @@ public class Menu {
     }
 
     //---- Validações de Inputs ----
-    public boolean verificarIntencao() {
+    public boolean verificarIntencao(Scanner entrada) {
         while (true) {
             System.out.println("Deseja proseguir com essa ação?\n1- Sim 2- Não:");
             switch (entrada.nextLine()) {
@@ -125,7 +124,7 @@ public class Menu {
         }
     }
 
-    private String validarNome(String nome) {
+    private String validarNome(Scanner entrada, String nome) {
         String regexNome = "[a-zA-Zà-üÀ-Ü' ]{3,}";
         while (!nome.matches(regexNome)) {
             System.out.println("\nPor favor digite um nome:");
@@ -134,7 +133,7 @@ public class Menu {
         return nome;
     }
 
-    private String validarTelefone(String telefone) {
+    private String validarTelefone(Scanner entrada, String telefone) {
         String regexTelefone = "[0-9]{10,12}";
         while (!telefone.matches(regexTelefone)) {
             System.out.println("\nPor favor digite um número telefonico válido:\n(No formato DDD+número e colocando apenas os números)");
@@ -143,7 +142,7 @@ public class Menu {
         return telefone;
     }
 
-    private String validarNascimento(String nascimento) {
+    private String validarNascimento(Scanner entrada, String nascimento) {
         while (true) {
             try {
                 LocalDate.parse(nascimento, DateTimeFormatter.ofPattern("dd/MM/uuuu"));
@@ -156,7 +155,7 @@ public class Menu {
         return nascimento;
     }
 
-    private String validarNotaFinal(String notaFinal) {
+    private String validarNotaFinal(Scanner entrada, String notaFinal) {
         String regexNotaFinal = "[0-9]{1,}[\\.][0-9]{1,}|[0-9]{1,}";
         while (!notaFinal.matches(regexNotaFinal)) {
             System.out.println("\nPor favor digite uma nota válida:\n(Para números não-inteiros utilize ponto ao invés de vírgula)");
@@ -165,7 +164,7 @@ public class Menu {
         return notaFinal;
     }
 
-    private Integer validarPosicao(String posicao) {
+    private Integer validarPosicao(Scanner entrada, String posicao) {
         int i = 1;
         while (true) {
             try {
@@ -173,10 +172,10 @@ public class Menu {
                 listaDeCadastrados.get(i - 1);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Valor inválido\nPor favor digite o número de uma posição:");
+                System.out.println("Valor inválido\n\nPor favor digite o número de uma posição:");
                 posicao = entrada.nextLine();
             } catch (IndexOutOfBoundsException e) {
-                System.out.println("Posição inexistente\nPor favor digite uma posição válida:");
+                System.out.println("Posição inexistente\n\nPor favor digite uma posição válida:");
                 posicao = entrada.nextLine();
             }
         }

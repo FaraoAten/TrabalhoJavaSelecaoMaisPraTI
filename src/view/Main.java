@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Scanner entrada = new Scanner(System.in);
+        Scanner entrada = new Scanner(System.in, "ISO-8859-1");
         Menu menu = new Menu();
 
         do {
@@ -24,26 +24,26 @@ public class Main {
                 switch (opcao) {
                     case "1":
                         System.out.println("\nVocê selecionou cadastrar pessoa ou aluno.");
-                        if (menu.verificarIntencao()) {
-                            menu.cadastrarPessoaOuAluno();
+                        if (menu.verificarIntencao(entrada)) {
+                            menu.cadastrarPessoaOuAluno(entrada);
                         }
                         break;
                     case "2":
                         System.out.println("\nVocê selecionou listar todos os cadastrados.");
-                        if (menu.verificarIntencao()) {
+                        if (menu.verificarIntencao(entrada)) {
                             menu.listarTodosCadastrados();
                         }
                         break;
                     case "3":
                         System.out.println("\nVocê selecionou atualizar dados de uma pessoa ou aluno.");
-                        if (menu.verificarIntencao() && menu.listarTodosCadastrados()) {
-                            menu.atualizarPessoaOuAluno();
+                        if (menu.verificarIntencao(entrada) && menu.listarTodosCadastrados()) {
+                            menu.atualizarPessoaOuAluno(entrada);
                         }
                         break;
                     case "4":
                         System.out.println("\nVocê selecionou deletar uma pessoa ou aluno.");
-                        if (menu.verificarIntencao() && menu.listarTodosCadastrados()) {
-                            menu.deletarPessoaOuAluno();
+                        if (menu.verificarIntencao(entrada) && menu.listarTodosCadastrados()) {
+                            menu.deletarPessoaOuAluno(entrada);
                         }
                         break;
                     default:
@@ -52,5 +52,6 @@ public class Main {
                 }
             }
         } while (true);
+        entrada.close();
     }
 }
